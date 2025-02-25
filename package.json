@@ -10,12 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "body-parser": "^1.20.3",
+    "esbuild": "^0.25.0",
     "express": "^4.21.2",
+    "mongodb": "^6.13.1",
+    "mongoose": "^8.10.1",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "serialize-javascript": "^6.0.2",
+    "svgo": "^3.3.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.96",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
@@ -23,8 +33,22 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.1.1"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElianaScript/my-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElianaScript/my-api/issues"
+  },
+  "homepage": "https://github.com/ElianaScript/my-api#readme"
 }
