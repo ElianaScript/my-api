@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import User from '../models/userModels';
+import { User } from '../models/userModel';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get('/:userId', async (req: Request, res: Response) => {
         .populate('thoughts')
         .populate('friends');
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'User not found' });
       }
       res.json(user);
     } catch (err) {
@@ -39,6 +39,11 @@ router.post('/', async (req: Request, res: Response ) => {
 router.put('/:userId', async(req: Request, res: Response) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+
+        if (!updatedUser) {
+            res.status(404).json({ error: 'Usee not found' });
+        }
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -47,9 +52,14 @@ router.put('/:userId', async(req: Request, res: Response) => {
 
 router.delete('/:userId', async(req: Request, res: Response) => {
     try {
-        await User.findByIdAndDelete(req.params.userId);
+               const deletedUser = await User.findByIdAndDelete(req.params.userId);
+        
+        if (!deletedUser) {
+            res.status(404).json({ error: 'User not found' });
+        }
+
         res.json({ message: 'User deleted' });
-    } catch (err) {
+    } catch (err: any) {
         res.status(400).json({ error: err.message });
     }
 });
@@ -59,14 +69,8 @@ router.post('/:userId/friends/:friendId', async (req: Request, res: Response) =>
         const user = await User.findById(req.params.userId);
         const friend = await User.findById(req.params.friendId);
 
-        if(!user || !friend) {
-            return res.status(404).json({ error: 'User or Friend not found'});
-        }
-
-        user.friends.push(friend._id as any);
-        await user.save();
         res.json(user);
-    } catch (err) {
+    } catch (err: any) {
         res.status(400).json({ error: err.message });
     }
 });
@@ -74,14 +78,17 @@ router.post('/:userId/friends/:friendId', async (req: Request, res: Response) =>
 router.delete('/:userId/friends/:friendId', async (req: Request, res: Response) =>{
     try {
         const user = await User.findById(req.params.userId);
-        if(!user) {
-            return res.status(400).json({ error: 'User not found' });
+        
+        if (!user) {
+        res.status(404).json({ error: 'User not found' });
         }
 
-        user.friends = user.friends.filter(friendId => friendId.toString() !== req.params.friendId);
-        await user.save();
+        if (user) {
+            await user.save();
+        }
+        
         res.json(user);
-    } catch (err) {
+    } catch (err: any) {
         res.status(400).json({ error: err.message });
     }
 });
